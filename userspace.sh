@@ -6,13 +6,12 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 
 
-pacman -Syy
-pacman -Su
+pacman -Syy --noprogressbar
+yes | pacman -Su --noprogressbar --noconfirm
 
-mkinitcpio -p linux-armv7
+#mkinitcpio -p linux-armv7
 
-pacman -S gcc gdb 
+yes | pacman --noprogressbar --needed  --noconfirm -S gcc gdb
 
-#scp the new initramfs out Qemu to replace the old /boot/initramfs-linux.img in host. 
-# scp /boot/initramfs-linux.img luke@192.168.200.208:~/
-
+#scp the new initramfs and kernel out Qemu to replace the old /boot/{initramfs-linux.img,zImage} in host.
+scp -oStrictHostKeyChecking=accept-new /boot/{initramfs-linux.img,zImage} luke@192.168.200.208:~/

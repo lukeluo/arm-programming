@@ -8,4 +8,4 @@ qemu-system-arm -M virt,highmem=off \
   -initrd boot/initramfs-linux.img \
   -nographic \
   -netdev tap,id=nd0,ifname=tap0,script=no,downscript=no -device e1000,netdev=nd0  \
--append 'root=PARTUUID="4b4f0b88-7eaf-4ae0-8669-4c012107667e" rw'
+-append 'root=PARTUUID="cc88b513-db87-4d01-aa75-267bfd2b53c4" rw'
