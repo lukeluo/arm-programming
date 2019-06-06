@@ -33,7 +33,7 @@ pacman -S qemu qemu-arch-extra multipath-tools libarchive gdisk wget asciinema
 
 ### 3.  arm(32) qemu setup
 
-I have recorded all command line operation via [Asciinema](<https://asciinema.org/>)  and uploaded the cast onto Asciinema](<https://asciinema.org/>) .   Feel free to check out the [local cast files](arm.cast)  or go directly to Asciinema. 
+I have recorded all command line operation via [Asciinema](<https://asciinema.org/>)  and uploaded the cast onto [armv7.cast](<https://asciinema.org/a/250291/>) .   Feel free to check out the [local cast files](armv7.cast)  or go directly to Asciinema. 
 
 I use "mermaid" in this file.   Although github does not support in-place display for mermaid contents, many markdown editor support it , i.e. typora.   You can also install a [chrome extension](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil)  to view "mermaid" contents on github. 
 
@@ -93,7 +93,7 @@ mountpoint-->|7. umount|finish
 
   During the first boot, although We have injected a virtio_pci driver into the new initramfs,  but it will not be found automatically while Udev is setup devices.  We need to manually "**insmod**" this module while boot is dropped into and emergency shell.  After we load the driver, the PCI disk will showup.  We just mount this disk onto "/new_root", and exit from the emergency, then the boot continue and we can login with "root/root".
 
-  After login, we should regenerate an initramfs via mkinitcpio,  then copy the new initramfs from /boot out to Qemu boot directory, to replace our hand-cooked "injected" version of initramfs.  After that , the boot will go smoothly with manual intervention. 
+  After login, we should regenerate an initramfs via mkinitcpio,  then copy the new initramfs/kernel  from /boot out to Qemu boot directory, to replace our hand-cooked "injected" version of initramfs and the old kernel.  After that , the boot will go smoothly with manual intervention. 
 
   
 
@@ -101,6 +101,8 @@ mountpoint-->|7. umount|finish
 - ##### User space tool chain setup([userspace.sh](userspace.sh))
 
 ​       We copy this file into /mnt/root/, so after login, we can just run to initialize pacman and then install all the necessary packages like gcc gdb, etc. 
+
+After system upgrade, we need to copy back the new kernel/initramfs back to host. 
 
 - ##### Simple test
 ```bash
