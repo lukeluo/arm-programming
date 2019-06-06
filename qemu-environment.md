@@ -37,7 +37,7 @@ I have recorded all command line operation via [Asciinema](<https://asciinema.or
 
 I use "mermaid" in this file.   Although github does not support in-place display for mermaid contents, many markdown editor support it , i.e. typora.   You can also install a [chrome extension](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil)  to view "mermaid" contents on github. 
 
-- ##### disk image/kernel  preparation
+- ##### disk image/kernel  preparation([disk.sh](disk.sh))
 
 The stock rootfs image from archlinuxarm does not include "**virtio_pci**" driver either in kernel or in initramfs.  The qemu-system-arm "virt"  machine is equipped with PCI interface hard disk and a PCI Ethernet card.  We need to inject virtio_pci driver into the initramfs so Qemu can boot from the stock rootfs via pci hard disk interface. 
 
@@ -72,7 +72,7 @@ mountpoint-->|7. umount|finish
 
 ```
 
-- ##### Qemu network setup
+- ##### Qemu network setup([netup.sh](netup.sh))
 
   We use a bridged network for Qemu.  A bridge device "**br0**" will be created. A tap device "**tap0**" will be created and join "**br0**"  bridge.   Qemu will use "**tap0**" to communicate with Internet. 
 
@@ -83,7 +83,7 @@ mountpoint-->|7. umount|finish
   Refer to [netup.sh](netup.sh)  and [netdown.sh](netdown.sh)   for the command line to setup/tear down bridge network. 
 
 
-- **Qemu startup script**
+- ##### Qemu startup script([arm.sh](arm.sh))
 
   It is time to startup our Qemu instance.  According to [qemu arm 32bit pci bug](https://bugs.launchpad.net/qemu/+bug/1790975) , I need to use **"-M virt,highmem"**  in Qemu startup  to workaround this bug. 
 
@@ -91,12 +91,12 @@ mountpoint-->|7. umount|finish
 
   After login, we should regenerate an initramfs via mkinitcpio,  then copy the new initramfs from /boot out to Qemu boot directory, to replace our hand-cooked "injected" version of initramfs.  After that , the boot will go smoothly with manual intervention. 
 
-  Here is the [Qemu startup script](arm.sh)
+  
 
 
-- ##### User space tool chain setup
+- ##### User space tool chain setup([userspace.sh](userspace.sh))
 
-
+​       We copy this file into /mnt/root/, so after login, we can just run to initialize pacman and then install all the necessary packages like gcc gdb, etc. 
 
 - ##### Simple test
 ```bash
@@ -138,4 +138,4 @@ Continuing.
 
 
 
-It seems everything works O.K. 
+Everything works O.K. 
