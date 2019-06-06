@@ -51,6 +51,10 @@ Be reminded that all files within an initramfs must be owned by root user, or Li
 - insmod:  manually load a kernel driver
 - blkid:  record the partuuid of the rootfs partition, to be used in kernel cmdline to select rootfs device
 
+Below is the flowchart for the disk image preparation.
+
+![](disksetupflow.jpg)
+
 
 
 ```mermaid
