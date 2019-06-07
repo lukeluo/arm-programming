@@ -90,19 +90,17 @@ mountpoint-->|7. umount|finish
 - ##### Qemu startup script([arm.sh](arm.sh))
 
   It is time to startup our Qemu instance.  According to [qemu arm 32bit pci bug](https://bugs.launchpad.net/qemu/+bug/1790975) , I need to use **"-M virt,highmem"**  in Qemu startup  to workaround this bug. 
-
-  During the first boot, although We have injected a virtio_pci driver into the new initramfs,  but it will not be found automatically while Udev is setup devices.  We need to manually "**insmod**" this module while boot is dropped into and emergency shell.  After we load the driver, the PCI disk will showup.  We just mount this disk onto "/new_root", and exit from the emergency, then the boot continue and we can login with "root/root".
-
-  After login, we should regenerate an initramfs via mkinitcpio,  then copy the new initramfs/kernel  from /boot out to Qemu boot directory, to replace our hand-cooked "injected" version of initramfs and the old kernel.  After that , the boot will go smoothly with manual intervention. 
+ 
+  After login, if we upgrade linux kernel, we need to copy new kernel/initramfs out of VM so Qemu can use new kernel/initramfs. 
 
   
 
 
 - ##### User space tool chain setup([userspace.sh](userspace.sh))
 
-​       We copy this file into /mnt/root/, so after login, we can just run to initialize pacman and then install all the necessary packages like gcc gdb, etc. 
+​       We already copy userpsace.sh  into /mnt/root/ when execute disk.sh. After login, we can just run this script to initialize pacman and then install all the necessary packages like gcc gdb, etc. 
 
-After system upgrade, we need to copy back the new kernel/initramfs back to host. 
+
 
 - ##### Simple test
 ```bash
