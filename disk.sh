@@ -35,6 +35,7 @@ mkdir initram
 cd initram 
 sudo bsdcpio -i -I  ../boot/initramfs-linux.img
 sudo cp /mnt/usr/lib/modules/5.1.5-1-ARCH/kernel/drivers/virtio/virtio_pci.ko.gz ./lib/modules/5.1.5-1-ARCH/kernel/
+sudo depmod -b ./ 5.1.5-1-ARCH
 sudo bash -c "find . -mindepth 1 -printf '%P\0' | LANG=C bsdcpio -z -o -H newc -O ../boot/initramfs-linux.img"
 cd ..
 
